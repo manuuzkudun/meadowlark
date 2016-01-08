@@ -7,8 +7,10 @@ var express = require('express'),
     credentials = require('./credentials.js'),
     weatherData = require('../app/lib/weatherData.js'),
     cookieParser = require('cookie-parser'),
-    expressSession = require('express-session');
+    expressSession = require('express-session'),
     //cartValidation = require('../app/lib/cartValidation.js'),
+    connect = require('connect'),
+    MongoSessionStore = require("session-mongoose")(connect);
 
 
 // Define the Express configuration method
@@ -120,11 +122,17 @@ module.exports = function() {
   
   // Middleware for setting and accesing cookies 
   app.use(cookieParser(credentials.cookieSecret));
-
-  // Middlware to store user session information on the server
-  // In the default configuration when the server is restarted, the session information dissapears
-  app.use(expressSession());
   
+  // Stores the session in the mongo db
+  var sessionStore = new MongoSessionStore({ 
+    url:credentials.mongo.connectionString 
+  });
+    
+  // Middleware to store user session information on the server
+  // In the default configuration when the server is restarted, the session information dissapears
+  // We use mongodb to store the session
+  app.use(require('express-session')({ store: sessionStore }));
+  //app.use(expressSession());
   
   // Middleware to transfer flash message from the session to the context
   app.use(function(req, res, next){
@@ -169,8 +177,11 @@ module.exports = function() {
   // Routes to handle the newsletter signup
   require('../app/routes/routes-vacations.js')(app);
   
-    // Routes to handle season listener
+  // Routes to handle season vacation notifier
   require('../app/routes/routes-vacationSeasonListener.js')(app);
+  
+  // Routes to set currency
+  require('../app/routes/routes-setCurrency.js')(app);
   
   // 404 catch-all handler (middleware)
   app.use(function(req, res, next){
