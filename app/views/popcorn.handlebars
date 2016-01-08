@@ -1,0 +1,131 @@
+{{#section 'head'}}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://popcornjs.org/code/dist/popcorn-complete.min.js"></script>
+    <style>
+      #footnotediv{
+        color: gray;
+        font-size: 40px;
+        position: absolute;
+        top: 100px;
+        left: 30px;
+        text-shadow: 2px 2px #000000;
+      }
+    </style>
+{{/section}}
+
+<div class="row" ng-app="myApp" ng-controller="formCtrl">
+  
+  <div class="col-sm-6">
+    <div id="video" style="width: 360px; height: 300px;" ></div>
+    <div>
+      <p id="footnotediv"></p>
+   </div>
+  </div>
+ 
+  <div class="col-sm-6">
+    <form novalidate>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <label for="text1">Initial text</label>
+          <input type="text" class="form-control" id="text1" placeholder="Introduce some text" ng-model="text1" >
+        </div>
+        <div class="col-sm-4 form-group">
+          <label for="start1">Start Time</label>
+          <input type="number" class="form-control" id="start1" placeholder="Start time" ng-model="start1" >
+        </div>
+        <div class="col-sm-4 form-group">
+          <label for="end1">End Time</label>
+          <input type="number" class="form-control" id="end1" placeholder="End time" ng-model="end1" >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <label for="text2">Final text</label>
+          <input type="text" class="form-control" id="text2" placeholder="Introduce some text" ng-model="text2">
+        </div>
+        <div class="col-sm-4 form-group">
+          <label for="start2">Start Time</label>
+          <input type="number" class="form-control" id="start2" placeholder="Start time" ng-model="start2">
+        </div>
+        <div class="col-sm-4 form-group">
+          <label for="end2">End Time</label>
+          <input type="number" class="form-control" id="end2" placeholder="End time" ng-model="end2">
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+{{#section 'jquery'}}
+  <script>
+  var app = angular.module('myApp', []);
+
+  app.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{[{');
+    $interpolateProvider.endSymbol('}]}');
+  });
+  
+
+  app.controller('formCtrl', function($scope) {
+ 
+   
+    var example = Popcorn.vimeo(
+      '#video',
+      'https://vimeo.com/146753785');
+
+    var a = 5;
+    var b = 10;
+
+    console.log("kai");
+    
+    example.code({
+      start: a,
+      end: b,
+      onStart: function( options ) {        
+        document.getElementById( "footnotediv" ).innerHTML = $scope.text1;
+        $('#footnotediv').fadeIn(1200); 
+      },
+      onEnd: function( options ) {
+        $('#footnotediv').fadeOut(1200);
+      }
+    });
+
+
+
+         example.code({
+      start: 12,
+      end: 20,
+      onStart: function( options ) {         
+        document.getElementById( "footnotediv" ).innerHTML = $scope.text2;
+      },
+      onEnd: function( options ) {
+        document.getElementById( "footnotediv" ).innerHTML = "";
+      }
+    });
+    
+
+});
+
+
+ /* // ensure the web page (DOM) has loaded
+  document.addEventListener("DOMContentLoaded", function () {
+
+    // Create a popcorn instance by calling the Youtube player plugin
+    var example = Popcorn.vimeo(
+      '#video',
+      'http://player.vimeo.com/video/25107077');
+        
+    // add a footnote at 2 seconds, and remove it at 6 seconds
+    example.footnote({
+      start: 2,
+      end: 6,
+      text: text,
+      target: "footnotediv"
+    });
+         
+    // play the video right away
+    example.play();
+
+    }, false); */
+  </script>
+{{/section}}
