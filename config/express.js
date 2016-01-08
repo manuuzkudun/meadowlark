@@ -166,6 +166,9 @@ module.exports = function() {
   // Routes to handle the newsletter signup
   require('../app/routes/routes-newsletter.js')(app);
   
+  // Routes to handle the newsletter signup
+  require('../app/routes/routes-vacations.js')(app);
+  
   // 404 catch-all handler (middleware)
   app.use(function(req, res, next){
     res.status(404);

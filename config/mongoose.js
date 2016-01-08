@@ -15,7 +15,7 @@ module.exports = function() {
   var db = null;
 
   // Connect to the development or production database
-  switch(app.get('env')){
+  switch(process.env.NODE_ENV){
     case 'development':
       db = mongoose.connect(credentials.mongo.development.connectionString, opts);
       break;
@@ -23,7 +23,7 @@ module.exports = function() {
       db = mongoose.connect(credentials.mongo.production.connectionString, opts);
       break; 
     default:
-      throw new Error('Unknown execution environment: ' + app.get('env'));
+      throw new Error('Unknown execution environment: ' + process.env.NODE_ENV);
   }  
 
 	// Load the application models 
@@ -83,6 +83,7 @@ module.exports = function() {
       }).save();
     
     });
+  
 
 	// Return the Mongoose connection instance
 	return db;
