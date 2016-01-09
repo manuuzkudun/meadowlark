@@ -1,26 +1,16 @@
 // Load the conytrollers
-var vacations = require('../controllers/vacations');
+var vacations = require('../controllers/vacations'),
+    main = require('../controllers/main');
 
 module.exports = function(app) {
   
   // Main page routes
-  
-  // Home page
-  app.get('/', function(req, res) {
-    res.render('home');
-  });
+  app.get('/', main.home);
+  app.get('/about',main.about);
   
   // Jquery test page 
   app.get('/jquery-test', function(req, res) {
     res.render('jquery-test');
-  });
-  
-  // About page
-  app.get('/about', function(req, res) {
-    res.render('about', { 
-      fortune: fortune.getFortune(),
-      pageTestScript:'/qa/tests-about.js'
-    } );
   });
   
    app.get('/set-currency/:currency', function(req,res){ 
@@ -31,11 +21,8 @@ module.exports = function(app) {
   
   
   // Vacations page routes
-  
   app.get('/vacations', vacations.list);
-  
   app.get('/notify-me-when-in-season', vacations.notifyWhenInSeason);
-
   app.post('/notify-me-when-in-season',vacations.notifyWhenInSeasonProcessPost);
   
   
