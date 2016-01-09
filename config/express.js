@@ -171,17 +171,7 @@ module.exports = function() {
   // Load the routing files
   require('../app/routes/routes.js')(app);
   
-  // Routes to handle the newsletter signup
-  require('../app/routes/routes-newsletter.js')(app);
-  
-  // Routes to handle the newsletter signup
-  require('../app/routes/routes-vacations.js')(app);
-  
-  // Routes to handle season vacation notifier
-  require('../app/routes/routes-vacationSeasonListener.js')(app);
-  
-  // Routes to set currency
-  require('../app/routes/routes-setCurrency.js')(app);
+
   
   // 404 catch-all handler (middleware)
   app.use(function(req, res, next){
