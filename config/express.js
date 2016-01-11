@@ -10,7 +10,9 @@ var express = require('express'),
     expressSession = require('express-session'),
     //cartValidation = require('../app/lib/cartValidation.js'),
     connect = require('connect'),
-    MongoSessionStore = require("session-mongoose")(connect);
+    MongoSessionStore = require("session-mongoose")(connect),
+    rest = require('connect-rest'),
+    vhost = require('vhost');
 
 
 // Define the Express configuration method
@@ -168,10 +170,40 @@ module.exports = function() {
                     'Get \'em while they\'re hot!');*/
   
   
-  // Load the routing files
+  // Website routes
   require('../app/routes/routes.js')(app);
   
+  // Attractions API routes
+  require('../app/routes/attractions-api.js')(rest);
+  
+  // API configuration
+  var apiOptions = { 
+    context: '/api',
+    domain: require('domain').create(),
+  };
+  
+  // API configuration
+var apiOptions = {
+    context: '/',
+    domain: require('domain').create(),
+};
 
+  apiOptions.domain.on('error', function(err){
+    console.log('API domain error.\n', err.stack);
+    setTimeout(function(){
+      console.log('Server shutting down after API domain error.');
+      process.exit(1);
+    }, 5000);
+    server.close();
+    var worker = require('cluster').worker;
+    if(worker) worker.disconnect();
+  });
+
+// link API into pipeline
+app.use(vhost('api.*', rest.rester(apiOptions)));
+  
+  // link API into pipeline
+  app.use(rest.rester(apiOptions));
   
   // 404 catch-all handler (middleware)
   app.use(function(req, res, next){

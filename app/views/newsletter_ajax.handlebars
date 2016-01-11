@@ -1,5 +1,5 @@
 <div class="formContainer">
-  <form class="form-horizontal newsletterForm" role="form" action="/process?form=newsletter" method="POST"> 
+  <form class="form-horizontal newsletterForm" role="form" action="/newsletter" method="POST"> 
     
     <input type="hidden" name="_csrf" value="{{csrf}}"> 
     
@@ -29,12 +29,15 @@
 {{#section 'jquery'}}
   <script>
     $(document).ready(function(){ 
-      
+      // When the form is submited
       $('.newsletterForm').on('submit', function(evt){
+        // Prevent default behaviour
         evt.preventDefault();
+        // Action property in the current form
         var action = $(this).attr('action');
+        // Form cointainer div
         var $container = $(this).closest('.formContainer'); 
-        
+        // AJAX call
         $.ajax({
           url: action,
           type: 'POST',
