@@ -1,12 +1,12 @@
 var controller = require('../controllers/attractions-api');
 
-module.exports = function(rest) {
+module.exports = function(app) {
   
-  rest.get('/attractions', controller.list);
+  app.get('/api/attractions', controller.list);
 
-  rest.post('/attraction', controller.add);
+  app.post('/api/attraction', controller.add);
 
-  rest.get('/attraction/:id', controller.view);
+  app.get('/api/attraction/:id', controller.view);
 
 };
 

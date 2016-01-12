@@ -1,11 +1,12 @@
-//TODO: Move route handlers to the controllers directory
-
 // Load the conytrollers
-var vacations = require('../controllers/vacations'),
-    main = require('../controllers/main');
-
+var vacations = require('../controllers/vacations.js'),
+    main = require('../controllers/main.js'),
+    contest = require('../controllers/contest.js'),
+    cart = require('../controllers/cart.js'),
+    samples = require('../controllers/samples.js');
+    
 module.exports = function(app) {
-  
+
   // Main page routes
   app.get('/', main.home);
   app.get('/about',main.about);
@@ -21,16 +22,21 @@ module.exports = function(app) {
   app.get('/notify-me-when-in-season', vacations.notifyWhenInSeason);
   app.post('/notify-me-when-in-season',vacations.notifyWhenInSeasonProcessPost);
   
-
-  app.get('/set-currency/:currency', function(req,res){ 
-    // Copy the currency parameter from the route parameter to the session
-    req.session.currency = req.params.currency; 
-    return res.redirect(303, '/vacations');
-  });
-  
-  
-  // Tours page routes
-  
+  // shopping cart routes
+//  app.get('/cart', cart.middleware, cartValidation.checkWaivers, cartValidation.checkGuestCounts, cart.home);
+//  app.get('/cart/add', cart.addProcessGet);
+//  app.post('/cart/add', cart.addProcessPost);
+//  app.get('/cart/checkout', cart.checkout);
+//  app.post('/cart/checkout', cart.checkoutProcessPost);
+//  app.get('/cart/thank-you', cart.thankYou);
+//  app.get('/email/cart/thank-you', cart.emailThankYou);
+//  app.get('/set-currency/:currency', cart.setCurrency);
+   
+  // contest routes
+  app.get('/contest/vacation-photo', contest.vacationPhoto);
+  app.post('/contest/vacation-photo/:year/:month', contest.vacationPhotoProcessPost);
+  app.get('/contest/vacation-photo/entries', contest.vacationPhotoEntries);
+    
   // Hood-river page
   app.get('/tours/hood-river', function(req, res){
     res.render('tours/hood-river');
@@ -46,41 +52,9 @@ module.exports = function(app) {
     res.render('tours/request-group-rate');
   });
   
-  // 
-  app.get('/contest/vacation-photo',function(req,res){
-    var now = new Date();
-    res.render('contest/vacation-photo',{
-      year: now.getFullYear(),
-      month: now.getMonth()
-    });
-  });
-
-
-app.post('/contest/vacation-photo/:year/:month', function(req, res){
-  var form = new formidable.IncomingForm();
-  
-  form.parse(req, function(err, fields, files){
-    if(err) return res.redirect(303, '/error');
-    console.log('received fields:');
-    console.log(fields);
-    console.log('received files:');
-    console.log(files);
-    res.redirect(303, '/thank-you');
-  });
-});
-
-// Test pages
-app.get('/popcorn', function(req, res){
-  res.render('popcorn');
-});
-
-  app.get('/jquery-test', function(req, res) {
-    res.render('jquery-test');
-  });
-
-
-
-
+  // Testing/sample routes
+  app.get('/jquery-test', samples.jqueryTest);
+  app.get('/popcorn', samples.popcornTest);
 
 };
 

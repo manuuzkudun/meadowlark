@@ -1,14 +1,16 @@
 Attraction = require('../models/attraction.js');
 
-// List all approved attractions
-exports.list = function(req, content, cb){
+// List all attractions (approved) 
+exports.list = function(req, res){
   // Find all attractions that are approved in the db
   Attraction.find({ approved: true }, function(err, attractions){
-    if(err) return cb({ error: 'Internal error.' });
-    
-    cb(null, attractions.map(function(a){
+    // Error: Database
+    if(err) return res.send(500, 'Error occurred: database error.');
+    // Send db results as JSON response
+    res.json(attractions.map(function(a){
       return {
         name: a.name,
+        id: a._id,
         description: a.description,
         location: a.location,
       };
@@ -17,9 +19,10 @@ exports.list = function(req, content, cb){
 
 };
 
-exports.add = function(req, content, cb){
-  
-  var a = new Attraction({
+// Add a new attraction to the db 
+exports.add = function(req, res){
+  // Create a new attraction object and fill it with req.body data
+  var attraction = new Attraction({
     name: req.body.name,
     description: req.body.description,
     location: { lat: req.body.lat, lng: req.body.lng },
@@ -30,24 +33,28 @@ exports.add = function(req, content, cb){
     },
     approved: false,
   });
-    
-  a.save(function(err, a){
-    if(err) return cb({ error: 'Unable to add attraction.' });
-    cb(null, { id: a._id });
+  // Save the attraction to the db  
+  attraction.save(function(err, attraction){
+    // Error: Database
+    if(err) return res.send(500, 'Error occurred: database error.');
+    // Send db results as JSON response
+    res.json({ id: a._id });
   }); 
   
 };
 
-
-
-exports.view = function(req, content, cb){
-  
+// View a given attraction
+exports.view = function(req, res){
+  // Find an attraction given it´s ID
   Attraction.findById(req.params.id, function(err, a){
-    if(err) return cb({ error: 'Unable to retrieve attraction.' });
-    cb(null, { 
+    // Error: Database
+    if(err) return res.send(500, 'Error occurred: database error.');
+    // Send db results as JSON response
+    res.json({
       name: a.name,
+      id: a._id,
       description: a.description,
-      location: a.location,
+      location: a.location
     });
   });
 };
