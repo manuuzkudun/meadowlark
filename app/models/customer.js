@@ -26,4 +26,4 @@ customerSchema.methods.getOrders = function(){
 };
 
 var Customer = mongoose.model('Customer', customerSchema);
-modules.export = Customer;
+module.exports = Customer;

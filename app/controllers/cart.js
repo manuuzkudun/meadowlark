@@ -1,3 +1,5 @@
+var Vacation = require('../models/vacation.js');
+
 // Function to add a given vacation(sku) to the cart object (session)
 function addToCart(sku, guests, req, res, next){
   // Get the cart object from the session or initialize one
@@ -18,15 +20,15 @@ function addToCart(sku, guests, req, res, next){
   });
 }
 
+// Function to add to the cart a given product with a given sku value
+// Get the sku and guests values from the query
 exports.addProcessGet = function(req, res, next){
-  // Add to the cart a given product with a given sku value
-  // Get the sku and guests values from the query
   addToCart(req.query.sku, req.query.guests, req, res, next);
 };
 
+// Function to add to the cart a given product with a given sku value
+// Get the sku and guests values from the query
 exports.addProcessPost = function(req, res, next){
-  // Add to the cart a given product with a given sku value
-  // Get the sku and guests values from the query
   addToCart(req.body.sku, req.body.guests, req, res, next);
 };
 
@@ -35,7 +37,7 @@ exports.home = function(req, res, next){
 	res.render('cart', { cart: req.cart });
 };
 
-// Renders cart-checkou page
+// Renders cart-checkout page if cart is not empty
 exports.checkout = function(req, res, next){
   // Get cart object from session
   var cart = req.session.cart;
