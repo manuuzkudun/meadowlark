@@ -4,7 +4,8 @@ var vacations = require('../controllers/vacations.js'),
     contest = require('../controllers/contest.js'),
     cart = require('../controllers/cart.js'),
     samples = require('../controllers/samples.js'),
-    customer = require('../controllers/customer.js');
+    customer = require('../controllers/customer.js'),
+    cartValidation = require('../lib/cartValidation.js');
     
 module.exports = function(app) {
 
@@ -23,15 +24,16 @@ module.exports = function(app) {
   app.get('/notify-me-when-in-season', vacations.notifyWhenInSeason);
   app.post('/notify-me-when-in-season',vacations.notifyWhenInSeasonProcessPost);
   
+
   // Shopping cart routes
-//  app.get('/cart', cart.middleware, cartValidation.checkWaivers, cartValidation.checkGuestCounts, cart.home);
-//  app.get('/cart/add', cart.addProcessGet);
-//  app.post('/cart/add', cart.addProcessPost);
-//  app.get('/cart/checkout', cart.checkout);
-//  app.post('/cart/checkout', cart.checkoutProcessPost);
-//  app.get('/cart/thank-you', cart.thankYou);
-//  app.get('/email/cart/thank-you', cart.emailThankYou);
-//  app.get('/set-currency/:currency', cart.setCurrency);
+  app.get('/cart', cart.middleware, cartValidation.checkWaivers, cartValidation.checkGuestCounts,cart.home);
+  app.get('/cart/add', cart.addProcessGet);
+  app.post('/cart/add', cart.addProcessPost);
+  app.get('/cart/checkout', cart.checkout);
+  app.post('/cart/checkout', cart.checkoutProcessPost);
+  app.get('/cart/thank-you', cart.thankYou);
+  app.get('/email/cart/thank-you', cart.emailThankYou);
+  app.get('/set-currency/:currency', cart.setCurrency);
   
   // Customer profile pages 
   app.get('/customer/register', customer.register);

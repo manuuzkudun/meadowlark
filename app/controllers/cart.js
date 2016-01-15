@@ -1,4 +1,48 @@
-var Vacation = require('../models/vacation.js');
+var Vacation = require('../models/vacation.js'),
+    Q = require('q');
+
+// TODO: move it to a file in /app/lib
+var VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+
+// Deserializes cart items from the database
+exports.middleware = function(req, res, next){
+  // Get cart from session
+  var cart = req.session.cart;
+  // If cart is not present or has no items go next middleware
+  if(!cart || !cart.items) return next();
+
+  // Pass to the request object from session a cart property with mapped items 
+  req.cart = {
+    items: cart.items.map(function(item){
+      return {
+        guests: item.guests,
+        sku: item.sku,
+      };
+    })
+  };
+  
+  var promises = req.cart.items.map(function(item){
+    return Q.Promise(function(resolve, reject){
+      
+      Vacation.findOne({ sku: item.sku }, function(err, vacation){
+        if(err) return reject(err);
+        item.vacation = vacation;
+        resolve();
+      });
+    });
+  });
+  
+  Q.all(promises)
+    .then(function(){
+      next();
+  })
+    .catch(function(err){
+      next(err);	
+  });
+};
+
+
 
 // Function to add a given vacation(sku) to the cart object (session)
 function addToCart(sku, guests, req, res, next){
@@ -48,16 +92,21 @@ exports.checkout = function(req, res, next){
 };
 
 // Renders cart-thank-you page
+// Cart object is attached
 exports.thankYou = function(req, res){
   res.render('cart-thank-you', { cart: req.session.cart });
 };
 
 // Renders the cart-thank-you email template
+// Cart object is attached
 exports.emailThankYou = function(req, res){
   res.render('email/cart-thank-you', { cart: req.session.cart, layout: null });
 };
 
-// Handles a cart checkout post call
+// Handles a cart checkout request (post)
+// Sends an thankyou email and renders a thankyou page
+// indicating order reservation data
+// cart.number, cart.billing.name and cart.billing.email
 exports.checkoutProcessPost = function(req, res){
   // Get cart object from session
   var cart = req.session.cart;
@@ -80,8 +129,8 @@ exports.checkoutProcessPost = function(req, res){
     // Print error message to console if there was rendering error
     if(err) console.error('error in email template: ' + err.stack);
     // Send thank-you email to the customer
-    emailService.send(cart.billing.email,
-      'Thank you for booking your trip with Meadowlark Travel!',html);
+    //emailService.send(cart.billing.email,
+      //'Thank you for booking your trip with Meadowlark Travel!',html);
   });
   // Render cart-thank-you page
   res.render('cart-thank-you', { cart: cart });
