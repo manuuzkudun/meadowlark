@@ -1,5 +1,6 @@
 var Vacation = require('../models/vacation.js'),
-    Q = require('q');
+    Q = require('q'),
+    emailService = require('../lib/email.js')(require('../../config/credentials.js'));
 
 // TODO: move it to a file in /app/lib
 var VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
@@ -129,8 +130,7 @@ exports.checkoutProcessPost = function(req, res){
     // Print error message to console if there was rendering error
     if(err) console.error('error in email template: ' + err.stack);
     // Send thank-you email to the customer
-    //emailService.send(cart.billing.email,
-      //'Thank you for booking your trip with Meadowlark Travel!',html);
+    emailService.send(cart.billing.email,'Thank you for booking your trip with Meadowlark Travel!',html);
   });
   // Render cart-thank-you page
   res.render('cart-thank-you', { cart: cart });

@@ -64,17 +64,19 @@ module.exports = function() {
     // create a domain for this request
     var domain = require('domain').create();
     
-    // handle errors on this domain
+    // This function will be invoked any time 
+    // an uncaught error occurs in the domain
     domain.on('error', function(err){
       console.error('DOMAIN ERROR CAUGHT\n', err.stack);
       try {
-        // failsafe shutdown in 5 seconds
+        // We’re allowing the server five seconds 
+        // to respond to any in-progress requests
         setTimeout(function(){
           console.error('Failsafe shutdown.');
           process.exit(1);
         }, 5000);
 
-        // disconnect from the cluster
+        // Disconnect from the cluster
         var worker = require('cluster').worker;
         if(worker) worker.disconnect();
 
@@ -97,7 +99,9 @@ module.exports = function() {
       }
     });
 
-    // add the request and response objects to the domain
+    // Add the request and response objects to the domain
+    // allowing any methods on those objects that throw an error 
+    // to be handled by the domain
     domain.add(req);
     domain.add(res);
 
@@ -157,18 +161,6 @@ module.exports = function() {
     next();
   });
 
-  
-  // Cart validation middleware
-  //app.use(cartValidation.checkWaivers);
-  //app.use(cartValidation.checkGuestCounts);
-  
-/*  
-  // Load the email library using the Gmail credentials
-  var emailService = require('../app/lib/email.js')(credentials);
-  // Send an example email
-  emailService.send('joecustomer@gmail.com', 'Hood River tours on sale today!',
-                    'Get \'em while they\'re hot!');*/
-  
   
   // Website routes
   require('../app/routes/routes.js')(app);

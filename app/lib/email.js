@@ -13,13 +13,13 @@ module.exports = function(credentials){
   
   // Set from header 
   var from = '"Meadowlark Travel" <info@meadowlarktravel.com>';
-  // 
-  var errorRecipient = 'youremail@gmail.com';
+  // Mail address reciving error emails
+  var errorRecipient = 'manuuzkudun@gmail.com';
 
   return {
     //  Method to send an email
     send: function(to, subj, body){
-                   
+      // Specify mail headers and body and send             
       mailTransport.sendMail({
         from: from,
         to: to,
@@ -42,7 +42,7 @@ module.exports = function(credentials){
     
       if(filename) body += 'filename:<br><pre>' + filename + '</pre><br>';
     
-      // Send email
+      // Send error email
       mailTransport.sendMail({
         from: from,
         to: errorRecipient,

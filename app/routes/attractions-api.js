@@ -6,7 +6,11 @@ module.exports = function(app) {
 
   app.post('/api/attraction', controller.add);
 
-  app.get('/api/attraction/:id', controller.view);
+  app.get('/api/attraction/:id', controller.read);
+  
+  app.put('/api/attraction/:id', controller.update);
+  
+  app.delete('/api/attraction/:id', controller.delete);
 
 };
 
