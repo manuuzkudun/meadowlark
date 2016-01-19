@@ -4,6 +4,22 @@ var mongoose = require('mongoose'),
     currencies = require('../lib/currencies'),
     VacationInSeasonListener = require('../models/vacationInSeasonListener.js');
 
+
+
+// Find a vacation in the db and render it´s page
+exports.detail = function(req, res, next){
+  // Find a vacation in the db
+  // The search parameter (slug) is specified in the req.params.vacation
+  Vacation.findOne({ slug: req.params.vacation }, function(err, vacation){
+    // Error: db
+    if(err) return next(err);
+    // Error: no vacation with that parameter
+    if(!vacation) return next();
+    // Renderthe vacation page and pass the vacation object to the template
+    res.render('vacation', { vacation: vacation });
+  });
+};
+
 // List all the avalaible vacations
 exports.list = function(req, res){
   // Find all vacation objects in the db that are avalaible
@@ -14,6 +30,7 @@ exports.list = function(req, res){
     var context = {
       vacations: vacations.map(function(vacation){
         return {
+          slug: vacation.slug,
           currency: currency,
           sku: vacation.sku,
           name: vacation.name,
@@ -21,6 +38,7 @@ exports.list = function(req, res){
           inSeason: vacation.inSeason,
           price: currencies.convertFromUSD(vacation.priceInCents/100, currency),
           qty: vacation.qty,
+          imagePath: vacation.imagePath,
         } 
       })
     };

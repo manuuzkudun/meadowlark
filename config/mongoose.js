@@ -32,8 +32,7 @@ module.exports = function() {
     // initialize vacations
     Vacation.find(function(err, vacations){
   
-      // If the there are vacations in the database returns vation list 
-      if(vacations.length) return vacations;
+      if(vacations.length) return;
   
       // If there are no vacations, then create and save some vacation objects in the db
       // These part is only executed the first time when the vacation collection is empty
@@ -50,6 +49,7 @@ module.exports = function() {
         maximumGuests: 16,
         available: true,
         packagesSold: 0,
+        imagePath: 'img/vacations/mt-hood.png',
       }).save();
 
       new Vacation({
@@ -64,6 +64,7 @@ module.exports = function() {
         maximumGuests: 8,
         available: true,
         packagesSold: 0,
+        imagePath: 'img/vacations/oregon-coast.png',
       }).save();
 
       new Vacation({
@@ -80,6 +81,7 @@ module.exports = function() {
         available: false,
         packagesSold: 0,
         notes: 'The tour guide is currently recovering from a skiing accident.',
+        imagePath: 'img/vacations/rock-climbing.png',
       }).save();
     
     });

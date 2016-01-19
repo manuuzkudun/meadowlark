@@ -14,6 +14,7 @@ var vacationSchema = mongoose.Schema({
   maximumGuests: Number,
   notes: String,
   packagesSold: Number,
+  imagePath: String,
 });
 
 // Method to show  a price suitable for display.

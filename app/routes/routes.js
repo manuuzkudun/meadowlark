@@ -21,6 +21,7 @@ module.exports = function(app) {
 
   // Vacations page routes
   app.get('/vacations', vacations.list);
+  app.get('/vacations/:vacation', vacations.detail);
   app.get('/notify-me-when-in-season', vacations.notifyWhenInSeason);
   app.post('/notify-me-when-in-season',vacations.notifyWhenInSeasonProcessPost);
   

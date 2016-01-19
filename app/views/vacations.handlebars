@@ -16,19 +16,28 @@
 
 {{#each vacations}}
   <div class="vacation">
-    <h3><a href="/vacation/{{slug}}">{{name}}</a></h3>
-    <p>{{description}}</p>
-    {{#if inSeason}}
-      <span class="price">{{price}} {{currency}}</span> 
-      <a href="/cart/add?sku={{sku}}" data-action="cart-add" data-sku="{{sku}}" class="btn btn-default">Add to cart</a>
-    {{else}}
-      <span class="outOfSeason">We're sorry, this vacation is currently 
-        not in season.</span>
-      {{! The "notify me when this vacation is in season" 
+    
+    <h3><a href="/vacations/{{slug}}">{{name}}</a></h3>
+    <div class="row">
+      <div class="col-sm-2">
+        <img src="{{imagePath}}" alt="{{slug}}" height="75" width="100">
+      </div>
+      <div class="col-sm-10">
+        <p>{{description}}</p>
+        {{#if inSeason}}
+          <span class="price">{{price}} {{currency}}</span> 
+          <a href="/cart/add?sku={{sku}}" data-action="cart-add" data-sku="{{sku}}" class="btn btn-default">Add to cart</a>
+        {{else}}
+          <span class="outOfSeason">We're sorry, this vacation is currently 
+                not in season.</span>
+          {{! The "notify me when this vacation is in season" 
           page will be our next task. }}
-      <a href="/notify-me-when-in-season?sku={{sku}}">Notify me when 
-      this vacation is in season.</a>
-    {{/if}}
+          <a href="/notify-me-when-in-season?sku={{sku}}">Notify me when 
+            this vacation is in season.</a>
+        {{/if}}
+      </div>
+    </div>
+
   </div>
 {{/each}}
 
@@ -41,33 +50,3 @@
 </p>
 
 
-{{#section 'jquery'}}
-  <script>
-    $(document).ready(function() {
-      // Listens to a click event in the add-to-cart button
-      $('[data-action="cart-add"]').on('click', function() {
-        // <a> element 
-        var $this = $(this);
-        // Send a post request through AJAX
-        // Send sku value and number of guests
-        $.post($this.attr('href'), { sku: $this.data('sku'), guests: 1 })
-          .done(function() {
-            // it would probably be bettert for cart.addItem to actually handle
-            // the AJAX call; a refactoring for another day!
-		    cart.addItem($this.data('sku'));
-		    $('<span class="badge">Vacation added!</span>')
-		      .hide()
-		      .insertAfter($this)
-		      .fadeIn();
-              })
-            .fail(function() {
-		      $('<span class="badge">Error!  Please try again.</span>')
-		        .hide()
-				.insertAfter($this)
-				.fadeIn();
-              });
-              return false;
-			});
-		});
-	</script>
-{{/section}}
