@@ -19,10 +19,10 @@
     
     <h3><a href="/vacations/{{slug}}">{{name}}</a></h3>
     <div class="row">
-      <div class="col-sm-2">
-        <img src="{{imagePath}}" alt="{{slug}}" height="75" width="100">
+      <div class="col-sm-4">
+        <img src="{{static imagePath}}" alt="{{slug}}" height="150" width="200">
       </div>
-      <div class="col-sm-10">
+      <div class="col-sm-8">
         <p>{{description}}</p>
         {{#if inSeason}}
           <span class="price">{{price}} {{currency}}</span> 
@@ -48,5 +48,9 @@
   <a href="/set-currency/EUR" class="currency {{currencyEUR}}">EUR</a> |
   <a href="/set-currency/BTC" class="currency {{currencyBTC}}">BTC</a>
 </p>
+
+
+
+
 
 

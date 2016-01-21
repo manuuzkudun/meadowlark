@@ -15,7 +15,7 @@ exports.detail = function(req, res, next){
     if(err) return next(err);
     // Error: no vacation with that parameter
     if(!vacation) return next();
-    // Renderthe vacation page and pass the vacation object to the template
+    // Render the vacation page and pass the vacation object to the template
     res.render('vacation', { vacation: vacation });
   });
 };

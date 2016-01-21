@@ -1,5 +1,7 @@
 <h1>{{vacation.name}}</h1>
 
+<img src="{{vacation.imagePath}}" alt="{{slug}}" height="150" width="200">
+
 <form class="form-horizontal newsletterForm" role="form"action="/cart/add" method="POST">
 	<input type="hidden" name="_csrf" value="{{_csrfToken}}">
 	<input type="hidden" name="sku" value="{{vacation.sku}}">

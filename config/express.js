@@ -8,7 +8,6 @@ var express = require('express'),
     weatherData = require('../app/lib/weatherData.js'),
     cookieParser = require('cookie-parser'),
     expressSession = require('express-session'),
-    //cartValidation = require('../app/lib/cartValidation.js'),
     connect = require('connect'),
     MongoSessionStore = require("session-mongoose")(connect);
     //rest = require('connect-rest'),
@@ -41,11 +40,16 @@ module.exports = function() {
     layoutsDir: path.join(__dirname, '../app/views/layouts'),
     partialsDir: path.join(__dirname, '../app/views/partials'),
     helpers: {
+      // Adds content in different sections of the layout
       section: function(name, options){
         if(!this._sections) this._sections = {};
         this._sections[name] = options.fn(this);
         return null;
-      }
+      },
+      // Static resources mapper
+      static: function(name) {
+        return require('../app/lib/static.js').map(name);
+      },   
     }
   });
 
