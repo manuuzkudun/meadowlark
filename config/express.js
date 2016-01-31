@@ -150,6 +150,8 @@ module.exports = function () {
   //app.use(expressSession());
 
 
+
+
   // Middleware will handle the token creation and verification
   // to prevent CSRF attacks
   // On all of your forms (and AJAX calls), you’ll have to provide 
@@ -175,14 +177,6 @@ module.exports = function () {
     });*/
 
 
-  app.use(function (req, res, next) {
-    if (!res.locals.partials) res.locals.partials = {};
-    res.locals.partials.weather = weatherData.getWeatherData();
-    next();
-  });
-
-
-
   // authentication
   var auth = require('../app/lib/auth.js')(app, {
     baseUrl: process.env.BASE_URL,
@@ -199,11 +193,26 @@ module.exports = function () {
 
 
 
+  app.use(function (req, res, next) {
+    if (!res.locals.partials) res.locals.partials = {};
+    res.locals.partials.weather = weatherData.getWeatherData();
+    res.locals.user = req.user;
+    next();
+  });
+
+
+
   // Website routes
   require('../app/routes/routes.js')(app);
 
   // Attractions API routes
   require('../app/routes/attractions-api.js')(app);
+
+
+  app.get('/logout', function (req, res) {
+    req.logOut();
+    res.redirect("/");
+  });
 
 
   // 404 catch-all handler (middleware)

@@ -88,12 +88,17 @@
         </ul>
 
         <ul class="nav navbar-nav pull-right">
+          {{#if user}}
+          <li><a href="/account">{{user.name}}</a></li>
+          <li><a href="/logout">Sign out</a></li>
+          {{else}}
           <li>
-            <a href="/about">Sign in</a>
+            <a href="/auth/facebook">Sign in</a>
           </li>
           <li>
             <a href="/customer/register">Register</a>
           </li>
+          {{/if}}
         </ul>
 
       </div>
