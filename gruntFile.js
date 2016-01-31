@@ -14,7 +14,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks(task);
   });
 
-  // Configure plugins
+  // Configure grunt plugins
   grunt.initConfig({
     cafemocha: {
       all: { src: 'qa/tests-*.js', options: { ui: 'tdd' }, }
@@ -65,14 +65,14 @@ module.exports = function(grunt){
         src: 'public/css/meadowlark.css',
         dest: 'public/css/meadowlark.min.css',
       },
-    },
+    // Handles the versions of the minified css and js files
     hashres: {
       options: {
         fileNameFormat: '${name}.${hash}.${ext}'
       },
       all: {
         src: [
-          'public/js.min/meadowlark.min.js',
+          'public/js/meadowlark.min.js',
           'public/css/meadowlark.min.css',
         ],
         dest: [

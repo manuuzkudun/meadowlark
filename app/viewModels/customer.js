@@ -12,7 +12,8 @@ function smartJoin(arr, separator){
 }
 
 
-// Get a customer view model
+// Create customer view model
+
 function getCustomerViewModel(customer, orders){
   // Given a customer object, create a visual model 
   // omiting the salesNotes property
@@ -27,7 +28,7 @@ function getCustomerViewModel(customer, orders){
 		customer.state + ' ' + 
 		customer.zip,
     ], '<br>'),
-    // Attach the orders object mapping the model properties
+    // Attach the orders object, mapping the model properties
     // to new visual model properties
     orders: orders.map(function(order){
       return {

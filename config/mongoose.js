@@ -49,7 +49,7 @@ module.exports = function() {
         maximumGuests: 16,
         available: true,
         packagesSold: 0,
-        imagePath: 'img/vacations/mt-hood.png',
+        imagePath: '/img/vacations/mt-hood.png',
       }).save();
 
       new Vacation({
@@ -64,7 +64,7 @@ module.exports = function() {
         maximumGuests: 8,
         available: true,
         packagesSold: 0,
-        imagePath: 'img/vacations/oregon-coast.png',
+        imagePath: '/img/vacations/oregon-coast.png',
       }).save();
 
       new Vacation({
@@ -81,7 +81,7 @@ module.exports = function() {
         available: false,
         packagesSold: 0,
         notes: 'The tour guide is currently recovering from a skiing accident.',
-        imagePath: 'img/vacations/rock-climbing.png',
+        imagePath: '/img/vacations/rock-climbing.png',
       }).save();
     
     });

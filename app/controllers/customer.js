@@ -1,6 +1,7 @@
 // Load models 
 var Customer = require('../models/customer.js'),
-    customerViewModel = require('../viewModels/customer.js');
+    customerViewModel = require('../viewModels/customer.js'),
+    Order = require('../models/order.js');
 
 // Renders customer registration page
 exports.register = function(req, res, next) {
@@ -8,8 +9,11 @@ exports.register = function(req, res, next) {
 };
 
 // Handles customer registration (POST request)
+// Creates a new customer object suing data from the req.body
+// Saves the object in the db
+// TODO: back-end validation (safety)
+// Redirects to the custome page
 exports.processRegister = function(req, res, next) {
-  // TODO: back-end validation (safety)
   // Create a new customer object using data from the request body
   var customer = new Customer({
     firstName: req.body.firstName,
@@ -37,20 +41,19 @@ exports.processRegister = function(req, res, next) {
 exports.home = function(req, res, next) {
   // Find a customer in the db given it´s id
   // id is given in as a url param
-  Customer.findById(req.params.id, function(err, customer) {
+  Customer.findById(req.params.id, function(error, customer) {
     //Error: db
-    if(err) return next(err);
+    if(error) return next(error);
     // Error: no customer with this id
     // pass this on to 404 handler
     if(!customer) return next(); 	
     // Get the orders from this customer
-    // TODO: implement order model
-    customer.getOrders(function(err, orders) {
-      if(err) return next(err);
-      if(!orders) orders=[];
+    // TODO: refractor to use the customer.getOrders method
+    Order.find({customerId:customer._id}, function(error,orders){
+      if(error) return next(error);
       // Render custome home page using the 
       // visual model created with the customer and orders data
-      res.render('customer/home', customerViewModel(customer));
+      res.render('customer/home', customerViewModel(customer, orders));
     });
   });
 };

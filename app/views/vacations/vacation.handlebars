@@ -1,0 +1,112 @@
+<style>
+  
+  a.currency {
+    text-decoration: none;
+  } 
+  
+  .currency.selected {
+    font-weight: bold;
+    font-size: 150%;
+  }
+  
+</style>
+
+
+
+
+<div class="row">
+ 
+  <div class="col-md-3">
+    <p class="lead">Shop Name</p>
+    <div class="list-group">
+      <a href="#" class="list-group-item active">Category 1</a>
+      <a href="#" class="list-group-item">Category 2</a>
+      <a href="#" class="list-group-item">Category 3</a>
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <div class="thumbnail">
+      <img class="img-responsive" src="http://placehold.it/800x300" alt="">
+      <!-- Information about the product -->
+      <div class="caption-full">
+        <h4><a href="#">{{vacation.name}}</a></h4>
+        <p>{{vacation.description}}</p>
+        {{#if vacation.inSeason}}
+          <p>
+            <span class="price">{{vacation.price}} {{vacation.currency}}</span>
+          </p>
+          <p>
+            <a href="/cart/add?sku={{vacation.sku}}" data-action="cart-add" 
+                data-sku="{{sku}}" class="btn btn-default">Add to cart</a>
+          </p>
+
+        {{else}}
+          <p>
+            <span class="outOfSeason">We're sorry, this vacation is currently 
+                      not in season.</span>
+            {{! The "notify me when this vacation is in season" 
+                  page will be our next task. }}
+            <a href="/notify-me-when-in-season?sku={{vacation.sku}}">Notify me when 
+                this vacation is in season.</a>
+          </p>
+        {{/if}}
+      </div>
+      
+      <!--Ratings -->
+      <div class="ratings">
+        <p class="pull-right">3 reviews</p>
+        <p>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star-empty"></span>
+          4.0 stars
+        </p>
+      </div>
+      
+    </div>
+
+    <div class="well">
+
+      <div class="text-right">
+        <a class="btn btn-success">Leave a Review</a>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-12">
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star"></span>
+          <span class="glyphicon glyphicon-star-empty"></span>
+          Anonymous
+          <span class="pull-right">10 days ago</span>
+          <p>This product was great in terms of quality. I would definitely buy another!</p>
+        </div>
+      </div>
+
+      <hr>
+    
+    </div>
+
+  </div>
+
+</div>
+
+<div class="pull-right">
+  <p>Currency:
+    <a href="/set-currency/USD" class="currency {{currencyUSD}}">USD</a> | 
+    <a href="/set-currency/GBP" class="currency {{currencyGBP}}">GBP</a> | 
+    <a href="/set-currency/EUR" class="currency {{currencyEUR}}">EUR</a> |
+    <a href="/set-currency/BTC" class="currency {{currencyBTC}}">BTC</a>
+  </p>
+</div>
+
+
+
+
+    

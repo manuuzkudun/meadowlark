@@ -1,0 +1,30 @@
+{{#section 'jquery'}}
+  <script>
+    $(document).ready(function() {
+      // Listens to a click event in the add-to-cart button
+      $('[data-action="cart-add"]').on('click', function() {
+        // <a> element 
+        var $this = $(this);
+        // Send a post request through AJAX
+        // Send sku value and number of guests
+        $.post($this.attr('href'), { sku: $this.data('sku'), guests: 1 })
+          .done(function() {
+            // it would probably be bettert for cart.addItem to actually handle
+            // the AJAX call; a refactoring for another day!
+		    cart.addItem($this.data('sku'));
+		    $('<span class="badge">Vacation added!</span>')
+		      .hide()
+		      .insertAfter($this)
+		      .fadeIn();
+              })
+            .fail(function() {
+		      $('<span class="badge">Error!  Please try again.</span>')
+		        .hide()
+				.insertAfter($this)
+				.fadeIn();
+              });
+              return false;
+			});
+		});
+	</script>
+{{/section}}

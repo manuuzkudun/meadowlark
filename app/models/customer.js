@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
     Order = require('./order.js');
 
-// Define customer model schema
+// Customer model schema
 var customerSchema = mongoose.Schema({ 
   firstName: String,
   lastName: String,
@@ -20,10 +20,11 @@ var customerSchema = mongoose.Schema({
   }], 
 });
 
-// Define getOrders method and attach it to the customer schema
+// Get the orders corresponding to the customer object calling it
 customerSchema.methods.getOrders = function(){ 
   return Order.find({ customerId: this._id });
 };
 
+// Attach the schema to the model
 var Customer = mongoose.model('Customer', customerSchema);
 module.exports = Customer;

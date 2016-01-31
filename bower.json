@@ -1,0 +1,31 @@
+{
+  "name": "meadowlarktravel",
+  "description": "Sample website for Web Development with Node and Express (O'Reilly).",
+  "main": "meadowlark.js",
+  "authors": [
+    "Ethan Brown <e@zepln.com>"
+  ],
+  "license": "GPL, MIT",
+  "homepage": "https://github.com/manuuzkudun/meadowlark",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main":[
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.min.css",
+        "less/bootstrap/bootstrap.less"
+      ]
+    }
+  }
+  
+}
