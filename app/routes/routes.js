@@ -5,14 +5,16 @@ var vacations = require('../controllers/vacations.js'),
   cart = require('../controllers/cart.js'),
   samples = require('../controllers/samples.js'),
   customer = require('../controllers/customer.js'),
-  cartValidation = require('../lib/cartValidation.js');
+  cartValidation = require('../lib/cartValidation.js'),
+  user = require('../controllers/user.js'),
+  authHelpers = require('../lib/authHelpers.js');
+
 
 module.exports = function (app) {
 
   // Main page routes
   app.get('/', main.home);
   app.get('/about', main.about);
-  app.get('/account',main.account);
 
   // Newsletter signup
   app.get('/newsletter', main.newsletter);
@@ -25,7 +27,7 @@ module.exports = function (app) {
   app.get('/vacations/:vacation', vacations.detail);
   app.get('/notify-me-when-in-season', vacations.notifyWhenInSeason);
   app.post('/notify-me-when-in-season', vacations.notifyWhenInSeasonProcessPost);
-  app.get('/vacations/request-group-rate',vacations.requestGroupRate);
+  app.get('/vacations/request-group-rate', vacations.requestGroupRate);
 
   // Shopping cart routes
   app.get('/cart', cart.middleware, cartValidation.checkWaivers, cartValidation.checkGuestCounts, cart.home);
@@ -45,12 +47,18 @@ module.exports = function (app) {
   //app.get('/orders/:id', customer.orders);
   app.post('/customer/:id/update', customer.ajaxUpdate);
 
+
+  // User routes
+  app.get('/sign-in', user.signIn);
+  app.get('/account', authHelpers.allow('customer,employee'), user.home);
+  app.get('/account/order-history', authHelpers.customerOnly, user.orderHistory);
+  app.get('/account/email-prefs', authHelpers.customerOnly, user.EmailPrefs);
+  app.get('/sales', authHelpers.employeeOnly, user.sales);
+
   // contest routes
   app.get('/contest/vacation-photo', contest.vacationPhoto);
   app.post('/contest/vacation-photo/:year/:month', contest.vacationPhotoProcessPost);
   app.get('/contest/vacation-photo/entries', contest.vacationPhotoEntries);
-
-
 
 
 };

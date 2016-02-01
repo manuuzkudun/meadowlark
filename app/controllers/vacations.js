@@ -29,7 +29,10 @@ exports.detail = function (req, res, next) {
       inSeason: vacation.inSeason,
       price: currencies.convertFromUSD(vacation.priceInCents / 100, currency),
       qty: vacation.qty,
-      imagePath: vacation.imagePath,
+      image: {
+        small: vacation.image.small,
+        big: vacation.image.big
+      },
     };
     // Render the vacation page and pass the vacation object to the template
     res.render('vacations/vacation', {
@@ -66,7 +69,10 @@ exports.list = function (req, res) {
           inSeason: vacation.inSeason,
           price: currencies.convertFromUSD(vacation.priceInCents / 100, currency),
           qty: vacation.qty,
-          imagePath: vacation.imagePath,
+          image: {
+            small: vacation.image.small,
+            big: vacation.image.big
+          },
         }
       })
     };

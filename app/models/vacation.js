@@ -14,15 +14,18 @@ var vacationSchema = mongoose.Schema({
   maximumGuests: Number,
   notes: String,
   packagesSold: Number,
-  imagePath: String,
+  image: {
+    small: String,
+    big: String
+  }
 });
 
 // Method to show  a price suitable for display.
-vacationSchema.methods.getDisplayPrice = function(){
+vacationSchema.methods.getDisplayPrice = function () {
   return '$' + (this.priceInCents / 100).toFixed(2);
 };
 
 // Set Vacation model
-var Vacation = mongoose.model('Vacation', vacationSchema); 
+var Vacation = mongoose.model('Vacation', vacationSchema);
 
 module.exports = Vacation;

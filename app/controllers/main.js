@@ -16,15 +16,6 @@ exports.about = function (req, res) {
 };
 
 
-exports.account = function (req, res) {
-
-  if (!req.session.passport.user) {
-    return res.redirect(303, '/unauthorized');
-  }
-  res.render('account',{name: req.user.name});
-
-};
-
 
 // Renders newsletter signup page
 exports.newsletter = function (req, res) {
