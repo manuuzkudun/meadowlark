@@ -158,5 +158,7 @@ exports.checkoutProcessPost = function (req, res) {
 exports.setCurrency = function (req, res) {
   // Copy the currency parameter from the route parameter to the session
   req.session.currency = req.params.currency;
-  return res.redirect(303, '/vacations');
+  // Gets from which page the user is doing the request
+  backURL=req.header('Referer') || '/vacations';
+  return res.redirect(303, backURL);
 };

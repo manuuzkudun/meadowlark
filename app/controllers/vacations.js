@@ -20,26 +20,45 @@ exports.detail = function (req, res, next) {
     // Get the currency parameter from the session
     var currency = req.session.currency || 'USD';
     // Set the context for the view template
-    var vacation = {
-      slug: vacation.slug,
-      currency: currency,
-      sku: vacation.sku,
-      name: vacation.name,
-      description: vacation.description,
-      inSeason: vacation.inSeason,
-      price: currencies.convertFromUSD(vacation.priceInCents / 100, currency),
-      qty: vacation.qty,
-      image: {
-        small: vacation.image.small,
-        big: vacation.image.big
-      },
+    var context = {
+      vacation: {
+        slug: vacation.slug,
+        currency: currency,
+        sku: vacation.sku,
+        name: vacation.name,
+        description: vacation.description,
+        inSeason: vacation.inSeason,
+        price: currencies.convertFromUSD(vacation.priceInCents / 100, currency),
+        qty: vacation.qty,
+        image: {
+          small: vacation.image.small,
+          big: vacation.image.big
+        },
+      }
     };
+
+    // TODO: need to encapsulate it in a function
+    // Add selected property to the currency link depending of the current currency
+    switch (currency) {
+    case 'USD':
+      context.currencyUSD = 'selected';
+      break;
+    case 'GBP':
+      context.currencyGBP = 'selected';
+      break;
+    case 'EUR':
+      context.currencyEUR = 'selected';
+      break;
+    case 'BTC':
+      context.currencyBTC = 'selected';
+      break;
+    }
+
     // Render the vacation page and pass the vacation object to the template
-    res.render('vacations/vacation', {
-      vacation: vacation
-    });
+    res.render('vacations/vacation', context);
   });
 };
+
 
 
 

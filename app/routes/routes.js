@@ -60,5 +60,30 @@ module.exports = function (app) {
   app.post('/contest/vacation-photo/:year/:month', contest.vacationPhotoProcessPost);
   app.get('/contest/vacation-photo/entries', contest.vacationPhotoEntries);
 
+  // React.js test
+  app.get('/react-test', function (req, res) {
+    res.render('reactTest', {
+      layout: null
+    });
+  });
+
+  app.get('/api/comments', function (req, res) {
+    var data = [
+      {
+        'id': '1',
+        'author': 'Pete Hunt',
+        'text': 'This is one comment'
+      },
+      {
+        'id': '2',
+        'author': 'Jordan Walke',
+        'text': 'This is *another* comment'
+      }];
+
+    res.json(data);
+  });
+
+
+
 
 };
