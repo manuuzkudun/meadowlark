@@ -1,16 +1,16 @@
-var controller = require('../controllers/attractions-api');
+var attractions = require('../controllers/attractions-api');
 
 module.exports = function(app) {
   
-  app.get('/api/attractions', controller.list);
+  app.get('/api/attractions', attractions.list);
 
-  app.post('/api/attraction', controller.add);
+  app.post('/api/attraction', attractions.add);
 
-  app.get('/api/attraction/:id', controller.read);
+  app.get('/api/attraction/:id', attractions.read);
   
-  app.put('/api/attraction/:id', controller.update);
+  app.put('/api/attraction/:id', attractions.update);
   
-  app.delete('/api/attraction/:id', controller.delete);
+  app.delete('/api/attraction/:id', attractions.delete);
 
 };
 

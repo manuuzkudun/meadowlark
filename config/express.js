@@ -208,6 +208,9 @@ module.exports = function () {
   // Attractions API routes
   require('../app/routes/attractions-api.js')(app);
 
+  // Comments API routes
+  require('../app/routes/comments-api.js')(app);
+
 
   app.get('/logout', function (req, res) {
     req.logOut();

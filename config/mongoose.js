@@ -31,6 +31,10 @@ module.exports = function () {
   // Load the application models 
   var Vacation = require('../app/models/vacation.js');
 
+
+  // Load the application models 
+  var Comment = require('../app/models/comment.js');
+
   // initialize vacations
   Vacation.find(function (err, vacations) {
 
@@ -95,6 +99,33 @@ module.exports = function () {
         'small': '/img/vacations/rock-climbing-small.png',
         'big': '/img/vacations/rock-climbing-big.png'
       },
+    }).save();
+
+  });
+
+
+
+
+  // initialize comments
+  Comment.find(function (err, comments) {
+
+    if (comments.length) {
+      return;
+    }
+
+    new Comment({
+      author: 'Pete Hunt',
+      text: 'This is one comment',
+    }).save();
+
+    new Comment({
+      author: 'Jordan Walke',
+      text: 'This is *another* comment',
+    }).save();
+
+    new Comment({
+      author: 'Manu Uzkudun',
+      text: 'This is my comment',
     }).save();
 
   });

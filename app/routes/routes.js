@@ -67,21 +67,22 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/api/comments', function (req, res) {
-    var data = [
-      {
-        'id': '1',
-        'author': 'Pete Hunt',
-        'text': 'This is one comment'
-      },
-      {
-        'id': '2',
-        'author': 'Jordan Walke',
-        'text': 'This is *another* comment'
-      }];
+  /* app.get('/api/comments', function (req, res) {
 
-    res.json(data);
-  });
+     var data = [
+       {
+         'id': '1',
+         'author': 'Pete Hunt',
+         'text': 'This is one comment'
+       },
+       {
+         'id': '2',
+         'author': 'Jordan Walke',
+         'text': 'This is *another* comment'
+       }];
+
+     res.json(data);
+   });*/
 
 
 
